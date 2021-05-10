@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Shorty — Shorten your urls</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Shorty — Shorten your urls" />
+    <meta
+      name="description"
+      content="With Shorty you can create shorter and more user friendly urls. "
+    />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://shrty.glitch.me" />
+    <meta property="og:title" content="Shorty — Shorten your urls" />
+    <meta
+      property="og:description"
+      content="With Shorty you can create shorter and more user friendly urls. "
+    />
+    <meta
+      property="og:image"
+      content="https://i.imgur.com/qnyLmE4.png"
+    />
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://shrty.glitch.me/" />
+    <meta property="twitter:title" content="Shorty — Shorten your urls" />
+    <meta
+      property="twitter:description"
+      content="With Shorty you can create shorter and more user friendly urls. "
+    />
+    <meta
+      property="twitter:image"
+      content="https://i.imgur.com/qnyLmE4.png"
+    />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+
+  <body>
+    <section>
+        <div class="container">
+          <h1 id="title">
+            Shorty
+          </h1>
+          <h2 id="subtitle" class="edgy">
+            Shortening your URLs since today.
+          </h2>
+        </div>
+    </section>
+
+    <main id="404">
+        <span id="name"></span><!--<span id="404txt"> was not found. You can
+        create it </span>--><a href="/">here.</a>
+    </main>
+
+    <script>
+      const name = new URLSearchParams(window.location.search).get("name");
+      if(name != undefined){
+        document.querySelector("#name").textContent = `${name}  was not found. You can create it `;
+      }else{
+        document.querySelector("#name").textContent = "The page you were looking for was not found. You can create it "
+      }
+    </script>
+  </body>
+</html>
