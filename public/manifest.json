@@ -1,0 +1,16 @@
+{
+  "name": "Shorty - URL Shortener",
+  "short_name": "Shorty",
+  "lang": "en-US",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#3585F6",
+  "icons": [
+    {
+      "src": "https://i.imgur.com/qnyLmE4.png",
+      "sizes": "256x256",
+      "type": "image"
+    }
+  ],
+  "background_color": "#000"
+}

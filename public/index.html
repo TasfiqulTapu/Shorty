@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Shorty — Shorten your urls</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Shorty — Shorten your urls" />
+    <meta
+      name="description"
+      content="With Shorty you can create shorter and more user friendly urls. "
+    />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://shrty.glitch.me" />
+    <meta property="og:title" content="Shorty — Shorten your urls" />
+    <meta
+      property="og:description"
+      content="With Shorty you can create shorter and more user friendly urls. "
+    />
+    <meta property="og:image" content="https://i.imgur.com/qnyLmE4.png" />
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://shrty.glitch.me/" />
+    <meta property="twitter:title" content="Shorty — Shorten your urls" />
+    <meta
+      property="twitter:description"
+      content="With Shorty you can create shorter and more user friendly urls. "
+    />
+    <meta property="twitter:image" content="https://i.imgur.com/qnyLmE4.png" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="manifest" href="manifest.json" />
+
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Shorty" />
+    <meta name="apple-mobile-web-app-title" content="Shorty" />
+    <meta name="theme-color" content="#3585F6" />
+    <meta name="msapplication-navbutton-color" content="#3585F6" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="msapplication-starturl" content="/" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="icon"
+      type="image"
+      sizes="256x256"
+      href="https://i.imgur.com/qnyLmE4.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      type="image"
+      sizes="256x256"
+      href="https://i.imgur.com/qnyLmE4.png"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css"
+      integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY="
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div id="page-container">
+      <div id="content-wrap">
+        <h1 id="title">Shorty</h1>
+        <h2 id="subtitle">Shortening your URLs since today.</h2>
+        <ul>
+          <li id="li1">
+            <lable for="#newid">Short ID (optional):</lable><br />
+            <input type="text" id="newid" />
+          </li>
+
+          <li id="li2">
+            <lable for="#newlink">Link:</lable><br />
+            <input type="text" id="newlink" />
+          </li>
+        </ul>
+        <button id="add" onclick="p()">Add</button>
+
+        <div id="res"></div>
+      </div>
+      <footer id="footer">
+        <span id="contact">Contact Me</span><br />
+        <a id="github" href="https://github.com/TasfiqulTapu"
+          ><i class="fa fa-github" aria-hidden="true"></i
+        ></a>
+        <a id="twitter" href="https://twitter.com/TasfiqulTapu"
+          ><i class="fa fa-twitter" aria-hidden="true"></i
+        ></a>
+        <p id="license">All <a href="https://github.com/TasfiqulTapu/Shorty">code</a> is under MIT license</p>
+      </footer>
+    </div>
+    <script>
+      let pwd, nid, nurl, stat;
+      let d = select("#res");
+      // let c = 0;
+      function setup() {
+        noCanvas();
+        // createP("test");
+      }
+
+      async function p() {
+        nid = select("#newid").value();
+        nurl = select("#newlink").value();
+        adder = select("#add").value();
+        // createP(nid);
+
+        let body = {
+          id: nid,
+          nurl: nurl
+        };
+        try {
+          await fetch("/api/create", {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+              "content-type": "application/json"
+            }
+          })
+            .then(response => {
+              stat = response.status;
+              return response.json();
+            })
+            .then(data => {
+              // if(count==0){let temp = createDiv().parent("#res");count++}
+              let z = JSON.stringify(data);
+              let p = JSON.parse(z);
+              let resDiv = createDiv()
+                .class("resBlock")
+                .parent("#res");
+              if (stat == 200) {
+                createP(`created ${p["id"]} for ${p["nurl"]}`)
+                  .class("resP")
+                  .parent(resDiv);
+                createA(
+                  `https://tp-me.glitch.me/${p.id}`,
+                  `https://tp-me.glitch.me/${p.id}`
+                )
+                  .class("resA")
+                  .parent(resDiv);
+              } else {
+                createP(z.slice(1, -1))
+                  .class("error")
+                  .parent(resDiv);
+              }
+            });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      if (location.protocol != "https:") {
+        location.href =
+          "https:" +
+          window.location.href.substring(window.location.protocol.length);
+      }
+    </script>
+  </body>
+</html>

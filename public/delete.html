@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Shorty — Shorten your urls</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Shorty — Shorten your urls" />
+    <meta
+      name="description"
+      content="With Shorty you can create shorter and more user friendly urls. "
+    />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://shrty.glitch.me" />
+    <meta property="og:title" content="Shorty — Shorten your urls" />
+    <meta
+      property="og:description"
+      content="With Shorty you can create shorter and more user friendly urls. "
+    />
+    <meta property="og:image" content="https://i.imgur.com/qnyLmE4.png" />
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://shrty.glitch.me/" />
+    <meta property="twitter:title" content="Shorty — Shorten your urls" />
+    <meta
+      property="twitter:description"
+      content="With Shorty you can create shorter and more user friendly urls. "
+    />
+    <meta property="twitter:image" content="https://i.imgur.com/qnyLmE4.png" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <h1 id="title">Shorty</h1>
+    <h2 id="subtitle">Shortening your URLs since today.</h2>
+    <ul>
+      
+      <li id="li1">
+        <lable for="#newid">Short ID:</lable>
+        <input type="text" id="newid" />
+      </li>
+      
+      <li id="i2">
+        <lable for="#password">Password:</lable>
+        <input type="text" id="password" />
+      </li>
+    </ul>
+    <button id="remove" onclick="p()">Remove</button>
+    
+    <div id="res">
+      
+    </div>
+    
+    <script>
+      let remover, nid, passW, stat;
+      function setup() {
+        noCanvas();
+       // createP("test");
+      }
+
+      async function p() {
+        nid = select("#newid").value();
+        passW = select("#password").value();
+        remover = select("#remove").value();
+       // createP(nid);
+
+        let body = {
+          id: nid,
+          pass: passW
+        };
+        try {
+          await fetch("/api/delete", {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+              "content-type": "application/json"
+            }
+          })
+            .then(response => {
+              stat = response.status;
+              return response.json();
+            })
+            .then(data => {
+              let z = JSON.stringify(data);
+              let resDiv = createDiv().class("resBlock").parent("#res");
+              if (stat == 200) {
+                createP(z.slice(1,-1)).class("resP").parent(resDiv)
+              } else {
+                createP(z.slice(1,-1)).class("error").parent(resDiv);
+              }
+            });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      if (location.protocol != "https:") {
+        location.href =
+          "https:" +
+          window.location.href.substring(window.location.protocol.length);
+      }
+    </script>
+  </body>
+</html>
